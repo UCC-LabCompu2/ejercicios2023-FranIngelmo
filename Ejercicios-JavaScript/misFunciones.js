@@ -185,3 +185,55 @@ let tomarDatosLS = () => {
 
     document.getElementById("dist").value= `${cant} ${unid}`;
 }
+
+let dibujarCirculoCuadrado = () => {
+    const canvas = document.getElementById("myCanvas");
+    const ctx = canvas.getContext("2d");
+
+    //Se usa el ancho y altura max para que cuanco uno quiera hacer el canvas mas grande, siempre este centrado
+    const anchoMax = canvas.width;
+    const alturaMax = canvas.height;
+
+    ctx.beginPath();
+    ctx.fillStyle = "#851414"
+    //Arco del circulo: (x, y, radio, anguloinicial, angulofiala)
+    ctx.arc(anchoMax/2, alturaMax/2, 100, 0, 2*Math.PI);
+    ctx.stroke();
+    ctx.fill();
+    ctx.closePath();
+
+    const margen = 8; //Sirve para que el cuadrado se separe del borde del canvas 8px por ejemplo
+    ctx.beginPath();
+    ctx.fillStyle = "#36b2c2"
+    //Cuadrado: (x, y, ancho, largo)
+    ctx.fillRect(0+margen, alturaMax-100-margen, 150, 100); //Se pone alturaMax-100 para que aparezca correctamente el cuadrado dentro del canvas
+    ctx.fill();
+    ctx.closePath();
+}
+
+
+let limpiarcanvas = () => {
+    const canvas = document.getElementById("myCanvas");
+    const ctx = canvas.getContext("2d");
+
+    canvas.width = canvas.width;
+}
+
+var bandera;
+let dibujar = () => {
+    const canvas = document.getElementById("myCanvas");
+    const ctx = canvas.getContext("2d");
+
+    let posX = event.clientX; //Traia las coordenadas del mouse y los guarda
+    let posY = event.clientY;
+    console.log(posX, posY);
+
+    canvas.onmousedown = function (){bandera=true};
+    canvas.onmouseup = function () {bandera=false};
+
+    if(bandera) {
+        ctx.fillRect(posX - 10, posY - 121, 5, 5);  //Esto es para que se pueda pintar de un tamanio de 5px
+        ctx.fill();
+    }
+
+}
