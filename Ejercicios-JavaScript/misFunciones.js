@@ -165,3 +165,23 @@ let cargarValores = () =>{
     const unidad= urlCompleta[2];
     document.getElementById("dist").value = `${distancia} ${unidad}`;
 }
+
+/**
+ * Permite generar un url que calcule la distancia y su unidad para despues llamar otra pagina web y mostrar esos resultados y guardarlos en una variablee storage
+ * @method generarUrl, cargarValores
+ */
+let guardarDatosLS = () => {
+    const dist = document.getElementById("distancia").value;
+    const unid = document.getElementsByName("unidades")[0].value;
+
+    localStorage.setItem("distanciaLS", dist); //Para guardar los datos en un localstorage
+    localStorage.setItem("unidadLS", unid);
+    window.open("web2.html");
+}
+
+let tomarDatosLS = () => {
+    const cant = localStorage.getItem("distanciaLS");
+    const unid = localStorage.getItem("unidadLS");
+
+    document.getElementById("dist").value= `${cant} ${unid}`;
+}
