@@ -9,6 +9,10 @@
 let conversorUnidades = (id, valor) => {
     let met, pul, pie, yar;
 
+    if(valor.includes(",")){ //Para poder poner 23,456 lo cabia a 23.456
+        valor=valor.replace(",", ".")
+    }
+    console.log("Semejecuto conversorUnidades") //Para verificar si se pusieron numeros en los segmentos
     if (isNaN(valor)) {
         met= "";
         pul= "";
@@ -38,10 +42,10 @@ let conversorUnidades = (id, valor) => {
         yar= valor;
     }
 
-    document.lasUnidades.unid_metro.value = met;
-    document.lasUnidades.unid_pulgada.value = pul;
-    document.lasUnidades.unid_pie.value = pie;
-    document.lasUnidades.unid_yarda.value = yar;
+    document.lasUnidades.unid_metro.value = Math.round(met*100)/100; //Corta los valores
+    document.lasUnidades.unid_pulgada.value = pul.toFixed(2); //Buscando el numero
+    document.lasUnidades.unid_pie.value = pie.toFixed(2);
+    document.lasUnidades.unid_yarda.value = Math.round(yar*100)/100;
 
 
 }
@@ -86,28 +90,78 @@ let mostrar_ocultar = (valor) =>{
 
 
 /**
- * Permite sumar, restar, multiplicar y dividir numeros
- * @method calcularSuma, calcularResta
+ * Permite sumar, restar, multiplicar y dividir numeros. Aparte el verLetra es para controlar todos los valores con una sola funcion
+ * @method calcularSuma, calcularResta, calcularMult, calcularDiv
+ * @param {string} id - Id del input del formulario
+ * @param {number} value - Valor ingresado por el usuario
  */
-function calcularSuma(){
-    let num1, num2, res;
-    if (isNaN(num1||num2)) { /*Falta completar*/
+
+
+let verLetra= (id, value)=>{
+    if(isNaN(value)) {
         num1 = "";
         num2 = "";
         alert("El valor ingresado no es correcto, verifique de poner numeros como valores");
-    }else{
-        num1 = Number(document.getElementById("nums1").value);
-        num2 = document.getElementById("nums2").value;
-        res= Number(num1)+ Number(num2);
-        document.getElementById("totalS").value= res;
     }
+
 }
 
-function calcularResta(){
+function calcularSuma(){
     let num1, num2, res;
 
     num1 = Number(document.getElementById("nums1").value);
     num2 = document.getElementById("nums2").value;
     res= Number(num1)+ Number(num2);
-    document.getElementById("totalR").value= res;
+    document.getElementById("totalS").innerHTML= res; //Inner es para cambiar el valor al resultado final, es para el span cuando no se usa el input
+}
+
+function calcularResta(){
+    let num1, num2, res;
+
+    num1 = Number(document.getElementById("numr1").value);
+    num2 = document.getElementById("numr2").value;
+    res= Number(num1)- Number(num2);
+    document.getElementById("totalR").innerHTML= res;
+}
+
+function calcularMult(){
+    let num1, num2, res;
+
+    num1 = Number(document.getElementById("numm1").value);
+    num2 = document.getElementById("numm2").value;
+    res= Number(num1)* Number(num2);
+    document.getElementById("totalM").innerHTML= res;
+}
+
+function calcularDiv(){
+    let num1, num2, res;
+
+    num1 = Number(document.getElementById("numd1").value);
+    num2 = document.getElementById("numd2").value;
+    res= Number(num1)/ Number(num2);
+    document.getElementById("totalD").innerHTML= res;
+}
+
+
+/**
+ * Permite generar un url que calcule la distancia y su unidad para despues llamar otra pagina web y mostrar esos resultados
+ * @method generarUrl, cargarValores
+ */
+
+let generarUrl = () =>{
+    const dist = document.getElementById("distancia").value;
+    const unid = document.getElementsByName("unidades")[0].value;
+
+    const urlComp = `segundaWeb.html#${dist}#${unid}`; //Para llamar una segundaweb, para "cantener cosas"
+    //const urlComp = "segundaWeb.html#"+dist+"#"+unid; //Para llamar una segundaweb de otra forma
+    window.open(urlComp, "_self"); //Abrir una segunda pagina web
+}
+
+let cargarValores = () =>{
+    let urlCompleta = window.location.href; //Copia la url de arriba y la estoy pasando a la variable urlCompleta
+    urlCompleta = urlCompleta.split("#"); //Split pasa un string a un array
+
+    const distancia = urlCompleta[1];
+    const unidad= urlCompleta[2];
+    document.getElementById("dist").value = `${distancia} ${unidad}`;
 }
