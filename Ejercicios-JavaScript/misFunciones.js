@@ -350,3 +350,62 @@ let cerrarDialog = () => {
     dialog.close();
 
 }
+
+/**
+ * Permite animar un auto en un canvas
+ * @method animarAuto
+ */
+
+var x= 0;
+var y = 100;
+var dx= 2;
+let animarAuto = () => {
+    const canvas = document.getElementById("myCanvas");
+    const ctx = canvas.getContext("2d");
+
+    let img;
+    img = new Image();
+    img.src = "images/auto.png";
+
+    img.onload = function (){
+        canvas.width = canvas.width;
+        ctx.drawImage(img, x, y);
+    }
+    x+=dx;
+    if(x>=canvas.width){
+        x=0;
+        y=y+50;
+    }
+
+
+}
+
+/**
+ * Permite animar un auto en un canvas usando un callback
+ * @method animarAuto2, animarNuevo
+ */
+
+var x=0;
+var dx=2;
+let animarAuto2 = () => {
+    const canvas = document.getElementById("myCanvas");
+    const ctx = canvas.getContext("2d");
+
+    const img = new Image();
+    img.src = "images/auto.png";
+
+    img.onload = function (){
+        canvas.width = canvas.width;
+        ctx.drawImage(img, x, 100);
+        requestAnimationFrame(animarAuto2);
+    }
+
+    if(x>canvas.width){
+        x=0;
+    }
+    x+=dx;
+}
+
+let animarNuevo = () => {
+    requestAnimationFrame(animarAuto2);
+}
