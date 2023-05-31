@@ -98,6 +98,7 @@ let mostrar_ocultar = (valor) =>{
 
 
 let verLetra= (id, value)=>{
+    let num1, num2;
     if(isNaN(value)) {
         num1 = "";
         num2 = "";
@@ -186,6 +187,11 @@ let tomarDatosLS = () => {
     document.getElementById("dist").value= `${cant} ${unid}`;
 }
 
+/**
+ * Permite dibujar un circulo y un cuadrado en un canvas
+ * @method dibujarCirculoCuadrado
+ */
+
 let dibujarCirculoCuadrado = () => {
     const canvas = document.getElementById("myCanvas");
     const ctx = canvas.getContext("2d");
@@ -212,6 +218,11 @@ let dibujarCirculoCuadrado = () => {
 }
 
 
+/**
+ * Permite dibujar en un canvas y luego limpiarlo cuand queramos
+ * @method limpiarcanvas, dibujar
+ */
+
 let limpiarcanvas = () => {
     const canvas = document.getElementById("myCanvas");
     const ctx = canvas.getContext("2d");
@@ -235,5 +246,107 @@ let dibujar = () => {
         ctx.fillRect(posX - 10, posY - 121, 5, 5);  //Esto es para que se pueda pintar de un tamanio de 5px
         ctx.fill();
     }
+
+}
+
+/**
+ * Permite dibujar un canvas cuadriculado marcando el medio del canvas
+ * @method dibujarCuadriculado
+ */
+
+let dibujarCuadriculado = () => {
+    const canvas = document.getElementById("myCanvas");
+    const ctx = canvas.getContext("2d");
+    const anchoMax = canvas.width;
+    const alturaMax = canvas.height;
+    const paso=20; //Movimiento del i=20
+    let ejeX=-24;
+    let ejeY=-14
+
+    //Lineas verticales
+    for(let i=paso; i<anchoMax; i+=paso) {
+        ctx.beginPath();
+        ctx.moveTo(i, 0);
+        ctx.lineTo(i, alturaMax);
+        ctx.strokeStyle = "#333";
+        ctx.stroke();
+
+        ctx.font="10pt Verdana";
+        ctx.fillStyle = "blue";
+        ctx.fillText( ejeX, i, alturaMax/2);
+        ctx.closePath();
+        ejeX++;
+    }
+
+    //Lineas horizontales
+    for(let i=paso; i<alturaMax; i+=paso) {
+        ctx.beginPath();
+        ctx.moveTo(0, i);
+        ctx.lineTo(anchoMax, i);
+        ctx.strokeStyle = "#333";
+        ctx.stroke();
+
+        ctx.font="10pt Verdana";
+        ctx.fillStyle = "blue";
+        ctx.fillText( ejeY, anchoMax/2, i);
+        ctx.closePath();
+        ejeY++;
+        ctx.closePath();
+    }
+
+    //Eje X
+    ctx.beginPath();
+    ctx.moveTo(0, alturaMax/2);
+    ctx.lineTo(anchoMax, alturaMax/2);
+    ctx.strokeStyle = "#720202";
+    ctx.stroke();
+    ctx.closePath();
+
+    //Eje Y
+    ctx.beginPath();
+    ctx.moveTo(anchoMax/2, 0);
+    ctx.lineTo(anchoMax/2, alturaMax);
+    ctx.strokeStyle = "#720202";
+    ctx.stroke();
+    ctx.closePath();
+
+}
+
+/**
+ * Permite dibujar una imagen en un canvas poniendo su posicion en el canvas y si no esta dar error
+ * @method dibujarImagen, abrirDialog, cerrarDialog
+ */
+
+let dibujarImagen = (posX, posY) => {
+    const canvas = document.getElementById("myCanvas");
+    const ctx = canvas.getContext("2d");
+
+    canvas.width = canvas.width; //Para resetear el canvas
+    console.log(posX, posY);
+    if(posX<0 || posY<0 || posX>canvas.width || posY>canvas.height){
+        abrirDialog();
+    }else {
+
+        let img;
+        img = new Image();
+        img.src = "images/auto.png";
+
+
+        img.onload = function () {
+            ctx.drawImage(img, posX, posY);
+        }
+    }
+
+}
+
+let abrirDialog = () => {
+    const dialog = document.getElementById("myDialog");
+    dialog.showModal();
+
+}
+
+let cerrarDialog = () => {
+    const dialog = document.getElementById("myDialog");
+    dialog.close();
 
 }
