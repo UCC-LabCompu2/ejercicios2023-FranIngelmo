@@ -47,7 +47,6 @@ let conversorUnidades = (id, valor) => {
     document.lasUnidades.unid_pie.value = pie.toFixed(2);
     document.lasUnidades.unid_yarda.value = Math.round(yar*100)/100;
 
-
 }
 
 /**
@@ -212,7 +211,7 @@ let dibujarCirculoCuadrado = () => {
     ctx.beginPath();
     ctx.fillStyle = "#36b2c2"
     //Cuadrado: (x, y, ancho, largo)
-    ctx.fillRect(0+margen, alturaMax-100-margen, 150, 100); //Se pone alturaMax-100 para que aparezca correctamente el cuadrado dentro del canvas
+    ctx.fillRect(margen, alturaMax-100-margen, 150, 100); //Se pone alturaMax-100 para que aparezca correctamente el cuadrado dentro del canvas
     ctx.fill();
     ctx.closePath();
 }
@@ -385,8 +384,8 @@ let animarAuto = () => {
  * @method animarAuto2, animarNuevo
  */
 
-var x=0;
-var dx=2;
+var x2=0;
+var dx2=2;
 let animarAuto2 = () => {
     const canvas = document.getElementById("myCanvas");
     const ctx = canvas.getContext("2d");
@@ -396,14 +395,14 @@ let animarAuto2 = () => {
 
     img.onload = function (){
         canvas.width = canvas.width;
-        ctx.drawImage(img, x, 100);
+        ctx.drawImage(img, x2, 100);
         requestAnimationFrame(animarAuto2);
     }
 
-    if(x>canvas.width){
-        x=0;
+    if(x2>canvas.width){
+        x2=0;
     }
-    x+=dx;
+    x2+=dx2;
 }
 
 let animarNuevo = () => {
